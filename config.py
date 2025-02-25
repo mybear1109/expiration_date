@@ -1,0 +1,2 @@
+# config.py
+API_KEY = "wPijEbgI7VsIAhp5ZnreF6TsOHJDNzR9OZVWTRNWO0YZ8GSg2kKnricFO8pTS%2B80RNCIjC2LpQdcHkAG89fi7Q%3D%3D"  # 여기에 발급받은 API 키를 입력하세요.
