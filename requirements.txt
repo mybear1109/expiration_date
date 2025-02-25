@@ -1,0 +1,7 @@
+streamlit
+requests
+opencv-python
+pyzbar
+numpy
+pandas
+sqlite3 

@@ -1,46 +1,75 @@
-# main.py
-from api_connector import get_product_info, is_refrigerated_or_frozen
-from product_manager import ProductManager, Product
-from notification_manager import send_notification
-from recipe_recommender import recommend_recipes
+import streamlit as st
+import barcode_scanner
+import product_manager
+import notification_manager
+import recipe_recommender
+from home import show as home_show 
+from about import show as about_show 
 
-def main():
-    product_manager = ProductManager()
+# 📌 세션 상태 초기화 (기본값: 홈)
+if "current_page" not in st.session_state:
+    st.session_state.current_page = "Home"
 
-    while True:
-        barcode = input("바코드를 입력하세요 (종료하려면 '종료' 입력): ")
-        if barcode == "종료":
-            break
+# 📌 페이지 변경 함수
+def switch_page(page):
+    st.session_state.current_page = page
 
-        product_info = get_product_info(barcode)
+# 📌 네비게이션 버튼 UI
+st.markdown("""
+    <style>
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stButton>button {
+            font-size: 16px;
+            padding: 10px 20px;
+        }
+    </style>
+""", unsafe_allow_html=True)
 
-        if product_info:
-            if is_refrigerated_or_frozen(product_info):
-                name = product_info['PRDLST_NM']
-                product_type = product_info['PRDLST_DCNM']
-                expiration_date = product_info['POG_DAYCNT']
+st.markdown('<div class="nav-buttons">', unsafe_allow_html=True)
 
-                product = Product(barcode, name, product_type, expiration_date)
-                product_manager.add_product(product)
+col1, col2, col3, col4, col5, col6 = st.columns(6)
+with col1:
+    if st.button("🏠 홈"):
+        switch_page("Home")
+with col2:
+    if st.button("📸 바코드 스캔"):
+        switch_page("Barcode Scanner")
+with col3:
+    if st.button("📦 제품 관리"):
+        switch_page("Product Manager")
+with col4:
+    if st.button("🔔 알림"):
+        switch_page("Notifications")
+with col5:
+    if st.button("레시피 추천"):
+        switch_page("Recipe Recommender")       
+with col6:
+    if st.button("ℹ️ 정보"):
+        switch_page("About")
 
-                print("제품이 추가되었습니다.")
-                print(product)
+st.markdown('</div>', unsafe_allow_html=True)
 
-
-            else:
-                print("냉장/냉동 제품이 아닙니다.")
-        else:
-            print("제품 정보를 가져오지 못했습니다.")
-
-        expiring_products = product_manager.get_expiring_products()
-        if expiring_products:
-            for product in expiring_products:
-                message = f"{product.name}의 유통기한이 {product.remaining_days()}일 남았습니다."
-                send_notification(message)
-                recipes = recommend_recipes(product.name)
-                print("추천 레시피:", recipes)
-        else:
-            print("유통기한 임박 제품이 없습니다.")
-
-if __name__ == "__main__":
-    main()
+# 📌 현재 선택된 페이지 실행
+if st.session_state.current_page == "Home":
+    home_show()  # 홈 페이지 함수 호출
+elif st.session_state.current_page == "Barcode Scanner":
+    barcode_scanner.show()  # 바코드 스캔 페이지 함수 호출
+elif st.session_state.current_page == "Product Manager":
+    product_manager.show()  # 제품 관리 페이지 함수 호출
+elif st.session_state.current_page == "Notifications":
+    notification_manager.show()  # 알림 페이지 함수 호출
+elif st.session_state.current_page == "Recipe Recommender":
+    # recipe_recommender 모듈에 show() 또는 show_page() 함수가 있는지 확인 후 호출
+    if hasattr(recipe_recommender, "show"):
+        recipe_recommender.show()
+    elif hasattr(recipe_recommender, "show_page"):
+        recipe_recommender.show_page()
+    else:
+        st.error("recipe_recommender 모듈에 표시할 함수가 없습니다. 해당 모듈에 show() 함수를 추가해주세요.")
+elif st.session_state.current_page == "About":
+    about_show()  # 정보 페이지 함수 호출

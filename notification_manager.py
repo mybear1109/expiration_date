@@ -1,8 +1,14 @@
-# n유통기한 알림 기능을 제공합니다.
-def send_notification(message):
-    """
-    푸시 알림 또는 이메일 알림을 보내는 기능을 구현합니다.
-    (실제 알림 기능은 추가적인 라이브러리나 서비스 연동이 필요합니다.)
-    """
-    print("Notification:", message)  # 콘솔에 알림 메시지 출력
-    # 여기에 푸시 알림 또는 이메일 전송 로직을 추가할 수 있습니다.
+import streamlit as st
+
+def show():
+    st.title("🔔 유통기한 알림")
+    st.write("📢 유통기한이 임박한 제품을 확인하세요.")
+
+    notifications = [
+        {"제품명": "우유", "유통기한": "2024-02-20"},
+        {"제품명": "냉동 만두", "유통기한": "2024-02-25"},
+        {"제품명": "생선", "유통기한": "2024-02-22"}
+    ]
+
+    for item in notifications:
+        st.warning(f"⚠️ {item['제품명']} - 유통기한: {item['유통기한']}")
