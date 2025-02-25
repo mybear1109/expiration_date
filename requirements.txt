@@ -4,5 +4,4 @@ opencv-python
 pyzbar
 numpy
 pandas
-sqlite3 
 elasticsearch
