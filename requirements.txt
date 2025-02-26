@@ -5,3 +5,6 @@ pyzbar
 numpy
 pandas
 elasticsearch
+google-cloud-vision
+transformers
+xmltodict

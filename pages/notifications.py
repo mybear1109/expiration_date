@@ -1,14 +1,8 @@
 import streamlit as st
 
 def show():
-    st.title("📦 제품 관리")
-    st.write("📋 현재 보관 중인 제품 목록:")
-
-    products = [
-        {"이름": "우유", "유통기한": "2024-02-20"},
-        {"이름": "냉동 만두", "유통기한": "2024-02-25"},
-        {"이름": "생선", "유통기한": "2024-02-22"}
-    ]
-
-    for product in products:
-        st.write(f"📌 {product['이름']} - 유통기한: {product['유통기한']}")
+    st.title("알림")
+    st.markdown("""
+    유통기한 임박 제품에 대한 알림을 설정할 수 있습니다.
+    (기능 구현은 추후 진행 예정입니다.)
+    """)

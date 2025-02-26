@@ -1,5 +1,6 @@
 import sqlite3
 import os
+import streamlit as st
 
 DB_PATH = "data/expiration_data.db"
 
@@ -12,7 +13,7 @@ def create_tables():
     conn = create_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS product (
+        CREATE TABLE IF NOT EXISTS product_table (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             barcode TEXT UNIQUE,
             product_name TEXT,
@@ -28,7 +29,7 @@ def insert_product(record):
     conn = create_connection()
     cursor = conn.cursor()
     cursor.execute("""
-        INSERT OR REPLACE INTO product (barcode, product_name, expiration_date, limit_day, manufacturer)
+        INSERT OR REPLACE INTO product_table (barcode, product_name, expiration_date, limit_day, manufacturer)
         VALUES (?, ?, ?, ?, ?)
     """, (record["barcode"], record["product_name"], record["expiration_date"], record["limit_day"], record["manufacturer"]))
     conn.commit()
