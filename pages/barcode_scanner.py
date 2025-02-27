@@ -5,7 +5,10 @@ import re
 from modules.external_apis import (
     extract_text_from_image,
     fetch_all_product_info,
-    object_detection
+    object_detection,
+    process_barcode,
+    extract_barcode_from_text,
+    extract_product_names
 )
 
 def extract_distribution_barcode(recognized_text):
@@ -48,7 +51,7 @@ def show():
                 st.success(f"추출된 유통바코드: {distribution_barcode}")
                 # 제품 정보 조회 (식품이력 및 유통바코드 정보)
                 product_info = fetch_all_product_info(distribution_barcode)
-                if product_info:
+                if product_info and (product_info["food_hist_info"] or product_info["distribution_info"]):
                     st.subheader("제품 정보")
                     st.json(product_info)
                 else:
@@ -58,7 +61,7 @@ def show():
         else:
             st.info("텍스트 인식에 실패했습니다.")
         
-        # 객체 검출 (이미지 내 객체를 시각화)
+        # 객체 검출 결과 (이미지 내 객체 시각화)
         st.subheader("객체 검출 결과")
         try:
             object_detection(temp_path)

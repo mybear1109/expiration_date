@@ -1,52 +1,16 @@
-# modules/data_management.py
-
-import os
 import streamlit as st
-import sqlite3
 
-#############################################
-# 데이터 ETL + DB 로직 병합
-#############################################
-
-# 1) ETL 함수 (예시)
-def fetch_and_clean_data():
-    """
-    예: API에서 받은 데이터를 전처리하는 작업.
-    data_etl.py에 있던 로직을 옮겨온다.
-    """
-    # ...
-    pass
-
-# 2) DB 연결 함수
-def init_db(db_path=":memory:"):
-    """
-    간단히 SQLite 초기화. database.py에 있던 로직을 옮겨온다.
-    """
-    conn = sqlite3.connect(db_path)
-    return conn
-
-def create_tables(conn):
-    """
-    테이블 생성, 예: products, expiry_dates 등
-    """
-    cursor = conn.cursor()
-    # SQL 실행...
-    conn.commit()
-
-# 3) 데이터 삽입 함수
-def insert_product(conn, product_info):
-    """
-    DB에 제품 정보 삽입
-    """
-    # ...
-    pass
-
-# 4) 데이터 조회 함수
-def get_products(conn):
-    """
-    모든 제품 리스트 조회
-    """
-    # ...
-    return []
-
-
+def show():
+    st.title("앱 정보")
+    st.markdown("""
+    **냉장고 관리 앱**
+    
+    이 앱은 영수증, 바코드, 이미지 인식을 통해 식재료 등록 및 관리, 유통기한 알림, 맞춤 레시피 추천 기능을 제공합니다.
+    
+    - **주요 기능**: 
+      - 영수증 텍스트 인식 및 OCR
+      - 바코드/QR 코드 스캔 및 제품 정보 조회
+      - 객체 검출 및 이미지 분석
+      - 맞춤 레시피 추천
+    - **기술 스택**: Streamlit, OpenCV, Google Cloud Vision, Transformers, pyzbar, SQLite, Elasticsearch 등
+    """)
